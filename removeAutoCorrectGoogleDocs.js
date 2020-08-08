@@ -43,7 +43,7 @@ window.addEventListener('load', function() {
         //Maybe see if cursor is far from the one where it was misspelled at?
         console.log('cursor at ' + document.getElementsByClassName('kix-cursor')[0].style.top);
         queue.push(missed);
-        queue = queue.slice(-16); //latest values. are most of them n-1?
+        queue = queue.slice(-12); //latest values. are most of them n-1?
         if (queue[0] > queue[queue.length - 1] && hasMovedAway) {
             //Got better! but is it a fluke just once while editing?
             for (let i = 1; i < queue.length * .8; i++) {
@@ -63,6 +63,11 @@ window.addEventListener('load', function() {
             queue = []; //clear out record
             setTimeout(function() {
                 hooray.parentNode.removeChild(hooray);
+                chrome.storage.sync.get(['correct'], function(result) {
+                    let correct = result.correct || 0;
+                    console.log(correct);
+                    chrome.storage.sync.set({ correct: correct + 1 }, function() {});
+                });
             }, 1000);
         }
     });
