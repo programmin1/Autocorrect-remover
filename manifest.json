@@ -1,0 +1,18 @@
+{
+    "manifest_version": 2,
+    "version": "0.0.1",
+    "name": "Autocorrect Remover!",
+    "description": "Replac auto spel corecting with somethig that lets you learn English more better!",
+    "browser_action": {
+        "default_icon": "icon.png",
+        "default_popup": "popup.html"
+    },
+    "permissions": [
+        "activeTab"
+    ],
+    "content_scripts": [{
+        "matches": ["https://docs.google.com/document/*"],
+        "css": [],
+        "js": ["removeAutoCorrectGoogleDocs.js"]
+    }]
+}
