@@ -28,19 +28,29 @@ observer.observe(document.body, { attributes: true, childList: true, subtree: tr
 window.addEventListener('load', function() {
     let queue = []
     let gamepoints = 0;
+    let lastCursorTop = 0;
     //Misspellings are shown or hidden again after clicking out or moving cursor in another way...
     const cursorobserver = new MutationObserver(function(mutationsList, observer) {
         for (let mutation of mutationsList) {
             //console.log(mutation);
         }
         let missed = document.getElementsByClassName('kix-spelling-error-hover-interceptor').length;
+        let hasMovedAway = (document.getElementsByClassName('kix-cursor')[0].style.top != lastCursorTop);
+        lastCursorTop = document.getElementsByClassName('kix-cursor')[0].style.top;
         //Make sure it has gone from x+1 to x some number of times because while reworking a word the underline does not show.
         //TODO better way to do it
         console.log('changed. ' + missed + ' misspellings');
+        //Maybe see if cursor is far from the one where it was misspelled at?
+        console.log('cursor at ' + document.getElementsByClassName('kix-cursor')[0].style.top);
         queue.push(missed);
-        queue = queue.slice(-10); //latest 10
-        if (queue[0] > queue[queue.length - 1]) {
-            //Got better!
+        queue = queue.slice(-16); //latest values. are most of them n-1?
+        if (queue[0] > queue[queue.length - 1] && hasMovedAway) {
+            //Got better! but is it a fluke just once while editing?
+            for (let i = 1; i < queue.length * .8; i++) {
+                if (queue[queue.length - 1] != queue[queue.length - 1 - i]) {
+                    return; // Not consistent, maybe just editing still and temporarily not underlined.
+                }
+            }
             gamepoints++;
             let hooray = document.createElement('h2');
             document.getElementById('docs-header').appendChild(hooray);
@@ -58,4 +68,12 @@ window.addEventListener('load', function() {
     });
     cursorobserver.observe(document.getElementsByClassName('kix-cursor')[0], { attributes: true });
 
+    //TODO set the preference for NO AUTO CORRECT from tools options. Where is that token?
+    // Set up our request
+    //let XHR = XMLHttpRequest;
+    //XHR.open( 'POST', 'prefs' );
+    //// Add the required HTTP header for form data POST requests
+    //XHR.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
+    //// Finally, send our data.
+    //XHR.send( 'preferences=%7B%22docs-autocorrect%22%3A%7B%22acSpelling%22%3Atrue%7D%7D' );
 });
