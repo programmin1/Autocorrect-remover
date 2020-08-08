@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+ <html>
+   <head>
+     <style>
+        .main-panel
+        {
+          width: 300px;
+          height: 500px;
+        }
+        .main-panel .center-panel
+        {
+          width: 200px;
+          margin: auto;
+          margin-top: 50px;
+        }
+          .main-panel .center-panel h1, .main-panel .center-panel h2
+          {
+            text-align: center;
+            font-size: 20pt;
+            margin-bottom: 5px;
+          }
+          .main-panel .center-panel .trophy-image
+          {
+            width: 200px;
+            height: auto;
+            margin-bottom: 20px;
+          }
+          .main-panel .center-panel .score
+          {
+              text-align: center;
+              color: green;
+              font-size: 50pt;
+          }
+          .main-panel .center-panel .failed
+          {
+              text-align: center;
+              color: red;
+              font-size: 30pt;
+          }
+     </style>
+   </head>
+   <body>
+     <script src="popup.js"></script>
+
+     <div class="main-panel">
+       <div class="center-panel">
+         <img class="trophy-image" title="trophy image" src="trophy.png">
+         <h1>Score</h1>
+         <div class="score" id="count">0</div>
+         <h2>Inccorect</h2>
+         <div class="failed" id="incorrect">0</div>
+       </div>
+     </div>
+   </body>
+ </html>
