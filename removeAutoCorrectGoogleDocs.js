@@ -43,12 +43,12 @@ window.addEventListener('load', function() {
         //Maybe see if cursor is far from the one where it was misspelled at?
         console.log('cursor at ' + document.getElementsByClassName('kix-cursor')[0].style.top);
         queue.push(missed);
-        queue = queue.slice(-12); //latest values. are most of them n-1?
+        queue = queue.slice(-8); //latest values. are most of them n-1?
         if (queue[0] > queue[queue.length - 1] && hasMovedAway) {
             //Got better! but is it a fluke just once while editing?
             for (let i = 1; i < queue.length * .8; i++) {
                 if (queue[queue.length - 1] != queue[queue.length - 1 - i]) {
-                    return; // Not consistent, maybe just editing still and temporarily not underlined.
+                    //return; // Not consistent, maybe just editing still and temporarily not underlined.
                 }
             }
             gamepoints++;
